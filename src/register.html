@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册界面</title>
+    <link href="css/register.css" rel="stylesheet">
+    <!--1.bootstrap样式-->
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.4.1/css/bootstrap.css" rel="stylesheet">
+    <!--2.验证规则样式-->
+    <link href="https://cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
+    <!--3.jquery 插件-->
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <!--4.核心验证文件-->
+    <script src="https://cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.js"></script>
+    <!--5.中文校验-->
+    <script src="https://cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/js/language/zh_CN.js"></script>
+    <script>
+        const REGISTER_URL = "http://localhost:8080/api/v2/register";
+        $(function () {
+            let settings = {
+                url: "请求的url地址",
+                type: "请求的方式 get post put DELETE",
+                data: "参数",
+
+                success: function (result) {
+                },
+                error: function (status) {
+                },
+                complete: function () {
+                },
+            };
+            $("#btn1").click(function () {
+                let username = $("#username").val();
+                let password = $("#password").val();
+                let email = $("#email").val();
+                let tel = $("#tel").val();
+
+                let data = {
+                    username: username,
+                    password: password,
+                    email: email,
+                    utel: tel,
+                };
+
+                $.get(REGISTER_URL, data, function (result) {
+                    if (result.status === 200) {
+                        alert("注册成功");
+                        window.location.href = "login.html"
+                    } else {
+                        alert("注册失败，请重新注册")
+                    }
+                }, 'json')
+
+            });
+
+            $("#btn2").click(function () {
+                window.location.href = "login.html"
+            })
+        })
+    </script>
+</head>
+<body>
+<div class="container-fluid">
+    <!--<form id="register_form">-->
+    <!--    昵称：<input type="text" name="username"><br/>-->
+    <!--    密码：<input type="password" name="password"><br/>-->
+    <!--    邮箱：<input id="email" type="text" name="email"><br/>-->
+    <!--    手机：<input id="tel" type="text" name="tel"><br/>-->
+    <!--    <input id="btn2" type="button" value="确定注册"><br/>-->
+    <!--    <input id="btn3" type="button" value="返回登录">-->
+    <!--</form>-->
+    <div class="col-lg-4 col-lg-offset-4 box">
+        <form id="register" class="form-horizontal">
+            <div class="form-group">
+                <label class="col-lg-3 control-label text-left center-block">用户名</label>
+                <div class=" col-lg-8">
+                    <input id="username" class="form-control" type="text" name="username">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 control-label text-left center-block">密码</label>
+                <div class="col-lg-8">
+                    <input id="password" class="form-control" type="password" name="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label text-left center-block">邮箱</label>
+                <div class="col-lg-8">
+                    <input id="email" class="form-control" type="text" name="email">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label text-left center-block">手机</label>
+                <div class="col-lg-8">
+                    <input id="tel" class="form-control" type="text" name="tel">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-3 col-lg-3">
+                    <button id="btn1" type="button" class="btn btn1 btn-info btn-default">确定注册</button>
+                </div>
+                <div class="col-lg-offset-1 col-lg-3">
+                    <button id="btn2" type="button" class="btn btn2 btn-info">返回登录</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(function () {
+        //    基础使用
+        let $form = $("#register").bootstrapValidator({
+            //    全局的通用的错误的提示语
+            message: "提交的数据不符合规范",
+            // 设置验证时的(样式)状态信息
+            feedbackIcons: {
+                //数据验证通过
+                valid: "glyphicon glyphicon-ok",
+                //  数据校验失败
+                invalid: "glyphicon glyphicon-remove",
+                //验证中的状态
+                validating: "glyphicon glyphicon-refresh",
+            },
+            fields: {
+                //对应input name属性的值
+                //用户名长度必须是4～8
+                username: {
+                    // 验证失败提示信息
+                    message: "用户名长度必须是4～8",
+                    validators: {
+                        notEmpty: {
+                            message: "用户名不能为空"
+                        },
+                        stringLength: {
+                            min: 4,
+                            max: 8,
+                            message: "用户名长度是4～8"
+                        }
+                    }
+                },
+                //密码只能包含字母和数字 长度是8～20
+                password: {
+                    message: "密码不符合规则",
+                    validators: {
+                        notEmpty: {
+                            message: "密码不能为空"
+                        },
+                        regexp: {
+                            regexp: /^\w{8,20}$/,
+                            message: "密码只能包含字母和数字 长度是8～20"
+                        }
+                    }
+                },
+            //    邮箱  字母数字组合(6到20位) + @ + 字母数字组合(2到6位) + .com或.cn
+                email: {
+                    message: "邮箱格式错误",
+                    validators: {
+                        regexp: {
+                            regexp: /^[a-zA-Z0-9]{6,20}@[a-zA-Z0-9]{2,6}\.(com|cn)$/,
+                            message: "字母数字组合(6到20位) + @ + 字母数字组合(2到6位) + .com或.cn"
+                        }
+                    }
+                },
+            //    手机  11位纯数字，必须是12、13、14、15、17、18开头
+                tel: {
+                    message: "手机号格式错误",
+                    validators: {
+                        notEmpty: {
+                            message: "手机号不能为空"
+                        },
+                        regexp: {
+                            regexp: /^1[234578][0-9]{9}$/,
+                            message: "11位纯数字，必须是12、13、14、15、17、18开头"
+                        }
+                    }
+                }
+            }
+        });
+    })
+    //   ^[\u4e00-\u9fa5]{0,}$
+    // ^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$
+    //    ^[a-zA-Z][a-zA-Z0-9_]{4,15}
+    // a-zA-Z0-9_ \d 0-9
+</script>
+</body>
+</html>
