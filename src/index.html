@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery.js"></script>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <script>
+        $(function () {
+            $("#search_btn").click(function () {
+                location.href = "search.html?keyword=" + $("#search_form :input").val();
+                return false;
+            })
+        })
+    </script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="search row">
+        <form id="search_form" action="#" class="navbar-form col-lg-6">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="项目名/要求">
+            </div>
+            <button id="search_btn" type="button" class="btn btn-default">搜索</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

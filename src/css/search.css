@@ -1,0 +1,12 @@
+.cont{
+    padding: 10px;
+}
+.cont:hover{
+    background: #9d9d9d;
+}
+a > span:hover{
+    color: white;
+}
+span{
+    padding-right: 15px;
+}

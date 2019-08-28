@@ -37,7 +37,7 @@
 
                 $.get(LOGIN_URL, data, function (result) {
                     if (result.status === 200) {
-                        window.location.href = 'hh.html'
+                        window.location.href = 'index.html?uid=' + result.data.uid
                     } else {
                         alert("账号或密码有误，请确认后重新登陆")
                     }
